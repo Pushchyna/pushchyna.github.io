@@ -145,8 +145,7 @@
         function renderBooks() {
             const container = document.getElementById('grid');
             container.innerHTML = flipbooks.map(book => `
-                <div class="book-card group bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 cursor-pointer"
-                     onclick="openFlipbook('${book.url}')">
+                <a href="${book.url}" target="_blank" rel="noopener noreferrer" class="book-card group bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 block">
                     <div class="relative overflow-hidden">
                         <img src="${book.cover}" 
                              class="cover w-full h-full object-cover"
@@ -165,7 +164,7 @@
                     <div class="p-8 text-zinc-400 text-sm leading-relaxed">
                         ${book.desc}
                     </div>
-                </div>
+                </a>
             `).join('');
         }
 
