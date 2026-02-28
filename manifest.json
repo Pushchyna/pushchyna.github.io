@@ -1,0 +1,21 @@
+{
+  "short_name": "Цифрові видання",
+  "name": "Цифрові видання: Інтерактивні формати",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0A0A0F",
+  "theme_color": "#a78bfa",
+  "display": "standalone",
+  "orientation": "portrait"
+}

@@ -3,197 +3,562 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пушчина • Церковні фліпбуки</title>
-    
-    <!-- OG META — саме це робить прев’ю в месенджерах -->
-    <meta property="og:title" content="Пушчина — Церковні фліпбуки">
-    <meta property="og:description" content="Інтерактивна цифрова бібліотека. Церковний календар та Довідник у преміум-фліпбук форматі.">
-    <meta property="og:image" content="https://pushchyna.github.io/og-preview.jpg"> <!-- ← ЗАМІНИ НА СВОЄ (1200×630 px) -->
-    <meta property="og:url" content="https://pushchyna.github.io/flipbooks">
+    <title>Цифрові видання</title>
+    <meta name="description" content="Сучасні інтерактивні формати з повнотекстовим пошуком, швидкою навігацією та зручним переглядом на будь-якому пристрої">
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pushchyna.github.io/"> <!-- Замініть на реальний URL сторінки -->
+    <meta property="og:title" content="Цифрові видання">
+    <meta property="og:description" content="Сучасні інтерактивні формати з повнотекстовим пошуком, швидкою навігацією та зручним переглядом на будь-якому пристрої">
+    <meta property="og:image" content="https://pushchyna.github.io/preview.jpg"> <!-- Приклад: використовуємо прев'ю першої картки; замініть на спеціальне зображення для прев'ю (рекомендую 1200x630 px) -->
+    
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://pushchyna.github.io/">
+    <meta name="twitter:title" content="Цифрові видання">
+    <meta name="twitter:description" content="Сучасні інтерактивні формати з повнотекстовим пошуком, швидкою навігацією та зручним переглядом на будь-якому пристрої">
+    <meta name="twitter:image" content="https://pushchyna.github.io/preview.jpg"> <!-- Аналогічно, замініть на краще зображення -->
+    
+    <link rel="icon" href="data:image/svg+xml;base64,CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYTc4YmZhIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPHBhdGggZD0iTTIgM2g2YTQgNCAwIDAgMSA0IDR2MTRhMyAzIDAgMCAwLTMtM0gyeiIvPgogIDxwYXRoIGQ9Ik0yMiAzaC02YTQgNCAwIDAgMC00IDR2MTRhMyAzIDAgMCAxIDMtM2g3eiIvPgo8L3N2Zz4K">
+    
+	<!-- PWA: Додаємо маніфест -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- PWA: Додаткові мета-теги для кращої сумісності -->
+    <meta name="theme-color" content="#0A0A0F"> <!-- Колір фону, адаптуйте -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Цифрові видання">
+    <link rel="apple-touch-icon" href="/icon-192x192.png"> <!-- Замініть на реальну іконку -->
+	
+	<style>
+        /* RESET - БЕЗ ЗМІН */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@400;500;600&amp;display=swap');
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: oklch(0.145 0 0);
+            color: oklch(0.985 0 0);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 2rem;
+        }
+
+        /* MAIN CONTAINER - БЕЗ ЗМІН */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* CARDS GRID - БЕЗ ЗМІН */
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 7rem 10rem;
+            margin-top: 8rem;
+        }
+
+        /* ========== ОРИГІНАЛЬНИЙ КОД КАРТКИ ========== */
+        /* (з мінімальними додатками для прев'ю та динамічних кольорів) */
         
-        :root { --gold: #d4af37; }
-        
-        body { font-family: 'Inter', system-ui, sans-serif; }
-        .serif { font-family: 'Playfair Display', serif; }
-        
-        .book-card {
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .card-container {
+            padding: 2px;
+            border-radius: 24px;
+            position: relative;
+            background: linear-gradient(
+                -30deg,
+                var(--gradient-color, oklch(from #dd8448 0.3 calc(0.1 / 2) h / 0.4)),
+                transparent,
+                var(--gradient-color, oklch(from #dd8448 0.3 calc(0.1 / 2) h / 0.4))
+                ),
+                linear-gradient(to bottom, oklch(0.185 0 0), oklch(0.185 0 0));
+            transition: transform 0.3s ease;
         }
-        .book-card:hover {
-            transform: translateY(-20px) scale(1.03);
-            box-shadow: 0 40px 80px -20px rgb(212 175 55 / 0.25);
+
+        .card-container:hover {
+            transform: translateY(-8px);
         }
-        .cover {
-            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        .inner-container {
+            position: relative;
+            width: 350px;
+            height: 500px;
         }
-        .book-card:hover .cover {
-            transform: scale(1.12) rotate(2deg);
+
+        /* border-outer - БЕЗ ЗМІН */
+        .border-outer {
+            border: 2px solid rgba(221, 132, 72, 0.5);
+            border-radius: 24px;
+            padding-right: 4px;
+            padding-bottom: 4px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 2;
         }
-        
-        .modal {
-            animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        /* preview-wrapper - новий, але зберігає структуру */
+        .preview-wrapper {
+            width: 101%;
+            height: 101%;
+            border-radius: 22px;
+            overflow: hidden;
+            position: relative;
+            background: #2a241f;
         }
-        @keyframes modalPop {
-            from { opacity: 0; transform: scale(0.7); }
-            to { opacity: 1; transform: scale(1); }
+
+        /* preview-image - БЕЗ ФІЛЬТРІВ */
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* затемнюючий шар поверх зображення (НОВИЙ) */
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.0) 40%, rgba(0, 0, 0, 0.85) 83%);
+            z-index: 2;
+            pointer-events: none;
+            border-radius: 22px;
+        }
+
+        /* electric-border - рамка з фільтром, але тепер вона всередині preview-wrapper */
+        .electric-border {
+            position: absolute;
+            top: -4px;  /* збільшено, щоб виходила за межі як в оригіналі */
+            left: -4px;
+            right: 4px;
+            bottom: 4px;
+            border: 2px solid var(--electric-color, #dd8448);
+            border-radius: 26px; /* трохи більше, щоб перекрити */
+            filter: url(#turbulent-displace);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* glow-layer-1 - БЕЗ ЗМІН, але колір через змінну */
+        .glow-layer-1 {
+            border: 2px solid var(--electric-glow-1, rgba(221, 132, 72, 0.6));
+            border-radius: 24px;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            filter: blur(1px);
+            z-index: 6;
+            pointer-events: none;
+        }
+
+        /* glow-layer-2 - БЕЗ ЗМІН, але колір через змінну */
+        .glow-layer-2 {
+            border: 2px solid var(--electric-glow-2, oklch(from #dd8448 l c h));
+            border-radius: 24px;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            filter: blur(4px);
+            z-index: 7;
+            pointer-events: none;
+        }
+
+        /* overlay-1 - БЕЗ ЗМІН */
+        .overlay-1 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 24px;
+            opacity: 1;
+            mix-blend-mode: overlay;
+            transform: scale(1.1);
+            filter: blur(16px);
+            background: linear-gradient(-30deg, white, transparent 30%, transparent 70%, white);
+            z-index: 8;
+            pointer-events: none;
+        }
+
+        /* overlay-2 - БЕЗ ЗМІН */
+        .overlay-2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 24px;
+            opacity: 0.5;
+            mix-blend-mode: overlay;
+            transform: scale(1.1);
+            filter: blur(16px);
+            background: linear-gradient(-30deg, white, transparent 30%, transparent 70%, white);
+            z-index: 9;
+            pointer-events: none;
+        }
+
+        /* background-glow - БЕЗ ЗМІН, але колір через змінну */
+        .background-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 24px;
+            filter: blur(32px);
+            transform: scale(1.1);
+            opacity: 0.3;
+            z-index: 1;
+            background: linear-gradient(-30deg, var(--bg-glow-1, oklch(from #dd8448 l c h)), transparent, var(--bg-glow-2, #dd8448));
+            pointer-events: none;
+        }
+
+        /* content-container - БЕЗ ЗМІН */
+        .content-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .content-top {
+            display: flex;
+            flex-direction: column;
+            padding: 48px;
+            padding-bottom: 16px;
+            height: 100%;
+        }
+
+        .content-bottom {
+            display: flex;
+            flex-direction: column;
+            padding: 48px;
+            padding-top: 16px;
+        }
+
+        /* scrollbar-glass - БЕЗ ЗМІН */
+        .scrollbar-glass {
+            background: radial-gradient(47.2% 50% at 50.39% 88.37%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%),
+                        rgba(255, 255, 255, 0.04);
+            position: relative;
+            transition: background 0.3s ease;
+            border-radius: 14px;
+            width: fit-content;
+            height: fit-content;
+            padding: 8px 16px;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .scrollbar-glass:hover {
+            background: radial-gradient(47.2% 50% at 50.39% 88.37%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%),
+                        rgba(255, 255, 255, 0.08);
+        }
+
+        .scrollbar-glass::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 1px;
+            background: linear-gradient(150deg, rgba(255, 255, 255, 0.48) 16.73%, rgba(255, 255, 255, 0.08) 30.2%, rgba(255, 255, 255, 0.08) 68.2%, rgba(255, 255, 255, 0.6) 81.89%);
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: 500;
+            margin-top: auto;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .description {
+            opacity: 0.7;
+            color: white;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.8);
+        }
+
+        .divider {
+            margin-top: auto;
+            border: none;
+            height: 1px;
+            background-color: rgba(255,255,255,0.4);
+            mask-image: linear-gradient(to right, transparent, black, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black, transparent);
+        }
+
+        .flipbook-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            pointer-events: auto;
+            cursor: pointer;
+			margin-bottom: 50px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .glow-title {
+    font-family: ' system-ui', 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(3.2rem, 8vw, 6.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-align: center;
+    background: linear-gradient(90deg, #a78bfa 0%, #7c3aed 30%, #ec4899 70%, #f43f5e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    padding: 0.1em 0.4em;
+  }
+
+  .glow-title::before,
+  .glow-title::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    filter: blur(12px) brightness(1.6);
+    opacity: 0.7;
+    z-index: -1;
+  }
+
+  .glow-title::after {
+    filter: blur(24px) brightness(1.8);
+    opacity: 0.45;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%      { opacity: 0.9; transform: scale(1.03); }
+  }
+
+  .glow-title {
+    animation: pulse-glow 6s ease-in-out infinite;
+  }
+
+        .page-subtitle {
+            font-size: 18px;
+            opacity: 0.6;
+            margin-top: 8px;
+        }
+
+        .svg-container {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        @media (max-width: 399px) {
+            body { padding: 1rem; }
+            .inner-container { width: 300px; height: 430px; }
+            .title { font-size: 28px; }
+            .content-top, .content-bottom { padding: 32px; }
         }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100">
+<body>
+    <!-- SVG - БЕЗ ЗМІН -->
+    <svg class="svg-container">
+        <defs>
+            <filter id="turbulent-displace" colorInterpolationFilters="sRGB" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise1" seed="1" />
+                <feOffset in="noise1" dx="0" dy="0" result="offsetNoise1">
+                    <animate attributeName="dy" values="700; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+                </feOffset>
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/90 backdrop-blur-xl border-b border-amber-900/30">
-        <div class="max-w-7xl mx-auto px-8 py-7 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div class="w-11 h-11 bg-gradient-to-br from-red-900 to-blue-900 rounded-2xl flex items-center justify-center text-3xl shadow-xl">🐈</div>
-                <span class="serif text-4xl tracking-tighter font-bold">Пушчина</span>
-            </div>
-            <a href="#collection" class="uppercase text-sm tracking-[3px] hover:text-amber-400 transition-colors">Колекція</a>
+                <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise2" seed="1" />
+                <feOffset in="noise2" dx="0" dy="0" result="offsetNoise2">
+                    <animate attributeName="dy" values="0; -700" dur="6s" repeatCount="indefinite" calcMode="linear" />
+                </feOffset>
+
+                <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise1" seed="2" />
+                <feOffset in="noise1" dx="0" dy="0" result="offsetNoise3">
+                    <animate attributeName="dx" values="490; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+                </feOffset>
+
+                <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise2" seed="2" />
+                <feOffset in="noise2" dx="0" dy="0" result="offsetNoise4">
+                    <animate attributeName="dx" values="0; -490" dur="6s" repeatCount="indefinite" calcMode="linear" />
+                </feOffset>
+
+                <feComposite in="offsetNoise1" in2="offsetNoise2" result="part1" />
+                <feComposite in="offsetNoise3" in2="offsetNoise4" result="part2" />
+                <feBlend in="part1" in2="part2" mode="color-dodge" result="combinedNoise" />
+
+                <feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="30" xChannelSelector="R" yChannelSelector="B" />
+            </filter>
+        </defs>
+    </svg>
+
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="glow-title">Цифрові видання</h1>
+            <p class="page-subtitle">Сучасні інтерактивні формати з повнотекстовим пошуком, швидкою навігацією та зручним переглядом на будь-якому пристрої</p>
         </div>
-    </nav>
 
-    <!-- HERO -->
-    <section class="min-h-screen flex items-center pt-20 bg-[radial-gradient(#27272a_1px,transparent_1px)] bg-[length:40px_40px]">
-        <div class="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
-            <div>
-                <div class="inline-flex items-center gap-3 px-6 py-3 rounded-3xl bg-amber-400/10 border border-amber-400/30 text-amber-400 text-sm tracking-widest">
-                    <i class="fa-solid fa-book-open"></i>
-                    ПРЕМІУМ ЦИФРОВА БІБЛІОТЕКА
-                </div>
-                <h1 class="serif text-7xl md:text-8xl leading-none tracking-tighter mt-8">
-                    ФЛІПБУКИ,<br>ЯКІ ВАРТІ<br>ТИСЯЧ
-                </h1>
-                <p class="mt-8 text-2xl text-zinc-400 max-w-lg">
-                    Телефонний довідник та Церковний календар у форматі розкішного інтерактивного видання
-                </p>
-                <a href="#collection" 
-                   class="mt-12 inline-flex items-center gap-4 px-10 py-7 bg-gradient-to-r from-amber-400 to-yellow-500 text-zinc-950 font-semibold text-lg rounded-3xl hover:scale-105 transition-all">
-                    Переглянути колекцію
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-            
-            <!-- Декоративні обкладинки -->
-            <div class="hidden md:block relative h-[620px]">
-                <div class="absolute right-0 top-12 w-[372px] h-[520px] bg-zinc-800 rounded-[2.5rem] shadow-2xl overflow-hidden border-8 border-amber-400/10 -rotate-6">
-                    <img id="hero-cover2" class="w-full h-full object-cover" alt="">
-                </div>
-                <div class="absolute right-12 bottom-8 w-[372px] h-[520px] bg-zinc-800 rounded-[2.5rem] shadow-2xl overflow-hidden border-8 border-amber-400/10 rotate-6">
-                    <img id="hero-cover1" class="w-full h-full object-cover" alt="">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- КОЛЕКЦІЯ -->
-    <section id="collection" class="py-28">
-        <div class="max-w-7xl mx-auto px-8">
-            <div class="text-center mb-16">
-                <span class="uppercase text-amber-400 text-sm tracking-[4px]">Наші видання</span>
-                <h2 class="serif text-6xl mt-3">Колекція фліпбуків</h2>
-            </div>
-
-            <div id="grid" class="grid md:grid-cols-2 gap-10"></div>
-
-            <p class="text-center text-zinc-500 mt-16 text-sm">Нові фліпбуки з’являтимуться тут автоматично</p>
-        </div>
-    </section>
-
-    <!-- MODAL -->
-    <div id="modal" class="hidden fixed inset-0 bg-black/95 z-[100] flex items-center justify-center">
-        <div class="modal w-full max-w-7xl h-[92vh] bg-zinc-900 rounded-3xl overflow-hidden relative">
-            <button onclick="closeModal()" 
-                    class="absolute top-6 right-6 z-10 text-4xl text-white/70 hover:text-white transition">
-                ×
-            </button>
-            <iframe id="iframe" class="w-full h-full" allowfullscreen></iframe>
-        </div>
-    </div>
-
-    <footer class="py-12 text-center text-zinc-500 text-xs border-t border-zinc-900">
-        © 2026 Видавництво Пушчина. Усі права захищені.
-    </footer>
+        <div class="cards-grid" id="flipbooksGrid"></div>
+    </main>
 
     <script>
-        // ================== ДАНІ ФЛІПБУКІВ (додавай нові сюди) ==================
         const flipbooks = [
-		    {
-                title: "Телефонний довідник",
-                subtitle: "Важливі номери Тульчина",
-                url: "https://pushchyna.github.io/dovidnyk/",
-                cover: "https://pushchyna.github.io/dovidnyk/files/page/1.jpg",   // ← заміни якщо інший шлях
-                desc: "Всі важливі номери телефонів міста Тульчин у зручному, цифровому довіднику з функцією текстового пошуку для спрощення користування.<br><br>Всі контакти довідника взято з Viber-групи ЗОЛОТІ СТОРІНКИ ТУЛЬЧИНСЬКОГО РАЙОНУ."
-            },
             {
-                title: "Церковний календар",
-                subtitle: "ПЦУ 2026",
-                url: "https://pushchyna.github.io/kalendar/",
-                cover: "https://pushchyna.github.io/kalendar/files/page/1.jpg",   // ← заміни якщо інший шлях
-                desc: "Це офіційний повний місячний календар з усіма богослужіннями, святами, постами та іконами Правосланої Церкви України в зручному цифровому форматі з функцією текстового пошуку для простішого користування.<br><br>НЕ ОКУПАНТСЬКА ФІЛІЯ РПЦ!"
+                id: 'dovidnyk',
+                title: 'Телефонний довідник',
+                description: 'Актуальні телефони установ, служб і організацій Тульчина. Зручний пошук, швидка навігація.',
+                url: 'https://pushchyna.github.io/dovidnyk/',
+                previewUrl: 'https://pushchyna.github.io/dovidnyk/files/page/1.jpg',
+                glassText: 'Тульчин',
+                // Індивідуальний колір для довідника (блакитний)
+                color: '#66ccff',
+                glowColor1: 'rgba(102, 204, 255, 0.6)',
+                glowColor2: '#66ccff',
+                bgGlow1: '#66ccff',
+                bgGlow2: '#3399cc'
+            },
+			            {
+                id: 'kalendar',
+                title: 'Церковний календар',
+                description: 'Повний календар богослужінь, свят і постів ПЦУ з інтерактивною навігацією та текстовим пошуком.',
+                url: 'https://pushchyna.github.io/kalendar/',
+                previewUrl: 'https://pushchyna.github.io/kalendar/files/page/1.jpg',
+                glassText: 'ПЦУ 2026',
+                // Індивідуальний колір для календаря (теплий оранжевий)
+                color: '#ff9966',
+                glowColor1: 'rgba(255, 153, 102, 0.6)',
+                glowColor2: '#ff9966',
+                bgGlow1: '#ff9966',
+                bgGlow2: '#cc6633'
             }
-            // додай новий об'єкт сюди — і він автоматично з'явиться
+
         ];
 
-        // ================== РЕНДЕР КАРТОК ==================
-        function renderBooks() {
-            const container = document.getElementById('grid');
-            container.innerHTML = flipbooks.map(book => `
-                <a href="${book.url}" rel="noopener noreferrer" class="book-card group bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 block">
-                    <div class="relative overflow-hidden">
-                        <img src="${book.cover}" 
-                             class="cover w-full h-full object-cover"
-                             alt="${book.title}">
-                        <div class="absolute inset-x-0 bottom-0 h-[100%] bg-gradient-to-t from-black/90 to-transparent"></div>
-                        <div class="absolute bottom-8 left-8 right-8">
-                            <div class="flex items-end justify-between">
-                                <div>
-                                    <div class="text-amber-400 text-xs tracking-widest mb-1">${book.subtitle}</div>
-                                    <div class="serif text-5xl leading-none">${book.title}</div>
+        function createFlipbookCard(book) {
+            // Створюємо стиль для динамічних кольорів
+            const style = `
+                <style>
+                    .card-container[data-id="${book.id}"] {
+                        --electric-color: ${book.color};
+                        --electric-glow-1: ${book.glowColor1};
+                        --electric-glow-2: ${book.glowColor2};
+                        --bg-glow-1: ${book.bgGlow1};
+                        --bg-glow-2: ${book.bgGlow2};
+                        --gradient-color: oklch(from ${book.color} 0.3 calc(0.1 / 2) h / 0.4);
+                    }
+                </style>
+            `;
+
+            return `
+                ${style}
+                <a href="${book.url}" class="flipbook-link">
+                    <div class="card-container" data-id="${book.id}">
+                        <div class="inner-container">
+                            <!-- border-outer - БЕЗ ЗМІН -->
+                            <div class="border-outer">
+                                <div class="preview-wrapper">
+                                    <img class="preview-image" 
+                                         src="${book.previewUrl}" 
+                                         alt="${book.title}"
+                                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22350%22%20height%3D%22500%22%20viewBox%3D%220%200%20350%20500%22%3E%3Crect%20width%3D%22350%22%20height%3D%22500%22%20fill%3D%22%232a241f%22%2F%3E%3Ctext%20x%3D%22175%22%20y%3D%22250%22%20font-family%3D%22system-ui%22%20font-size%3D%2220%22%20fill%3D%22${book.color}%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3E${book.title}%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                                    <!-- затемнюючий шар -->
+                                    <div class="preview-overlay"></div>
                                 </div>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-4xl text-amber-400/30 group-hover:text-amber-400 transition"></i>
+                            </div>
+							
+                            <!-- electric-border - рамка з фільтром (тепер виходить за межі) -->
+                            <div class="electric-border"></div>
+
+                            <!-- Всі оригінальні ефекти -->
+                            <div class="glow-layer-1"></div>
+                            <div class="glow-layer-2"></div>
+                            <div class="overlay-1"></div>
+                            <div class="overlay-2"></div>
+                            <div class="background-glow"></div>
+
+                            <!-- Контент - БЕЗ ЗМІН -->
+                            <div class="content-container">
+                                <div class="content-top">
+                                    <div class="scrollbar-glass">${book.glassText}</div>
+                                    <p class="title">${book.title}</p>
+                                </div>
+
+                                <hr class="divider" />
+
+                                <div class="content-bottom">
+                                    <p class="description">${book.description}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="p-8 text-zinc-400 text-sm leading-relaxed">
-                        ${book.desc}
-                    </div>
                 </a>
-            `).join('');
+            `;
         }
 
-        // ================== МОДАЛЬНЕ ВІКНО ==================
-        function openFlipbook(url) {
-            document.getElementById('iframe').src = url;
-            document.getElementById('modal').classList.remove('hidden');
-            document.getElementById('modal').classList.add('flex');
+        const grid = document.getElementById('flipbooksGrid');
+        
+        if (grid) {
+            flipbooks.forEach(book => {
+                grid.innerHTML += createFlipbookCard(book);
+            });
         }
-        function closeModal() {
-            const modal = document.getElementById('modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.getElementById('iframe').src = '';
+		
+		// PWA: Реєстрація сервіс-воркера
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                }).catch(function(error) {
+                    console.log('Service Worker registration failed:', error);
+                });
+            });
         }
-
-        // ================== ЗАПУСК ==================
-        document.addEventListener('DOMContentLoaded', () => {
-            renderBooks();
-            
-            // заповнюємо hero-обкладинки першими двома
-            if (flipbooks[0]) document.getElementById('hero-cover1').src = flipbooks[0].cover;
-            if (flipbooks[1]) document.getElementById('hero-cover2').src = flipbooks[1].cover;
-        });
-
-        // закриття модалки по ESC
-        document.addEventListener('keydown', e => {
-            if (e.key === "Escape") closeModal();
-        });
     </script>
 </body>
 </html>
