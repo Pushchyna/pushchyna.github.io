@@ -341,48 +341,58 @@
             margin-bottom: 3rem;
         }
 
-        .glow-title {
-    font-family: ' system-ui', 'Segoe UI', Roboto, sans-serif;
-    font-size: clamp(3.2rem, 8vw, 6.5rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    text-align: center;
-    background: linear-gradient(90deg, #a78bfa 0%, #7c3aed 30%, #ec4899 70%, #f43f5e 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    position: relative;
-    padding: 0.1em 0.4em;
-  }
+   /* Спільні стилі */
+h1.glow-title,
+h2.glow-title {
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-align: center;
+  background: linear-gradient(90deg, #a78bfa 0%, #7c3aed 30%, #ec4899 70%, #f43f5e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  padding: 0.1em 0.4em;
+  animation: pulse-glow 6s ease-in-out infinite;
+}
 
-  .glow-title::before,
-  .glow-title::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    background: inherit;
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    filter: blur(12px) brightness(1.6);
-    opacity: 0.7;
-    z-index: -1;
-  }
+/* Різні розміри */
+h1.glow-title {
+  font-size: clamp(3.2rem, 8vw, 6.5rem);
+}
 
-  .glow-title::after {
-    filter: blur(24px) brightness(1.8);
-    opacity: 0.45;
-  }
+h2.glow-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
 
-  @keyframes pulse-glow {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50%      { opacity: 0.9; transform: scale(1.03); }
-  }
+/* Glow */
+h1.glow-title::before,
+h1.glow-title::after,
+h2.glow-title::before,
+h2.glow-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: blur(12px) brightness(1.6);
+  opacity: 0.7;
+  z-index: -1;
+}
 
-  .glow-title {
-    animation: pulse-glow 6s ease-in-out infinite;
-  }
+h1.glow-title::after,
+h2.glow-title::after {
+  filter: blur(24px) brightness(1.8);
+  opacity: 0.45;
+}
 
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%      { opacity: 0.9; transform: scale(1.03); }
+}
         .page-subtitle {
             font-size: 18px;
             opacity: 0.6;
@@ -451,7 +461,6 @@
     }
 	
 	h2{
-    font-size:20px;
     margin-bottom:10px;
 	margin-top: 70px;
     }	
@@ -500,7 +509,7 @@
 
         <div class="cards-grid" id="flipbooksGrid"></div>
     </main>
-    <h2>Прогноз погоди — Тульчин</h2>
+    <h2 class="glow-title">Прогноз погоди — Тульчин</h2>
 	<iframe width="100%" height="190" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=m/s&zoom=10&overlay=rain&product=ecmwf&level=surface&lat=48.591&lon=28.861&detailLat=48.673&detailLon=28.857&detail=true" frameborder="0"></iframe>
     <script>
         const flipbooks = [
