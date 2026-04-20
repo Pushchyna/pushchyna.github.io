@@ -415,20 +415,20 @@ h2.glow-title::after {
         /* Оптимізація для мобільних: зменшуємо інтенсивність ефектів */
         @media (max-width: 768px) {
             .electric-border {
-                filter: none; /* Вимикаємо тяжкий SVG-фільтр на мобільних для швидкості */
-				display: none;
+                xfilter: none; /* Вимикаємо тяжкий SVG-фільтр на мобільних для швидкості */
+				xdisplay: none;
             }
             glow-layer-1, .glow-layer-2 {
-                filter: blur(1px); /* Зменшуємо розмиття */
+                xfilter: blur(1px); /* Зменшуємо розмиття */
             }
             overlay-1, .overlay-2 {
-                filter: blur(8px); /* Зменшуємо розмиття */
+                xfilter: blur(8px); /* Зменшуємо розмиття */
             }
             background-glow {
-                filter: blur(16px); /* Зменшуємо розмиття */
+                xfilter: blur(16px); /* Зменшуємо розмиття */
             }
             .card-container:hover {
-                transform: none; /* Вимикаємо hover-ефект на тач-пристроях */
+                xtransform: none; /* Вимикаємо hover-ефект на тач-пристроях */
             }
 			body { 
 			    padding: 1rem; 
