@@ -405,6 +405,54 @@ h2.glow-title::after {
             height: 0;
         }
 
+        x@media (max-width: 399px) {
+            body { padding: 1rem; }
+            .inner-container { width: 300px; height: 430px; }
+            .title { font-size: 28px; }
+            .content-top, .content-bottom { padding: 32px; }
+        }
+
+        /* Оптимізація для мобільних: зменшуємо інтенсивність ефектів */
+        x@media (max-width: 768px) {
+            .electric-border {
+                xfilter: none; /* Вимикаємо тяжкий SVG-фільтр на мобільних для швидкості */
+				xdisplay: none;
+            }
+            glow-layer-1, .glow-layer-2 {
+                xfilter: blur(1px); /* Зменшуємо розмиття */
+            }
+            overlay-1, .overlay-2 {
+                xfilter: blur(8px); /* Зменшуємо розмиття */
+            }
+            background-glow {
+                xfilter: blur(16px); /* Зменшуємо розмиття */
+            }
+            .card-container:hover {
+                xtransform: none; /* Вимикаємо hover-ефект на тач-пристроях */
+            }
+			body { 
+			    padding: 1rem; 
+			}
+            .inner-container { 
+			width: min(300px, 80vw); 
+			height: min(430px, calc(80vw * (430 / 300))); /* Додаткова адаптація для дуже маленьких екранів */
+			}
+            .title { 
+			font-size: 28px; 
+			}
+            .content-top {
+			padding: 30px 30px 10px 30px; 
+			}
+			.content-bottom {
+			padding: 10px 30px 30px 30px; 
+			}
+			.cards-grid {
+			margin-top: 5rem;
+			gap: 4rem 5rem;
+			}
+
+        }
+
     footer {
         text-align: center;
         padding: 75px 10px 10px;
